@@ -1,12 +1,9 @@
 from PIL import Image
 import os
 import os.path
-import json
 
 import torch.utils.data
 import torchvision.transforms as transforms
-
-base_path =  '../multiple_subspace_learning/zpimgs'
 
 def default_image_loader(path):
     return Image.open(path).convert('RGB')
@@ -14,6 +11,13 @@ def default_image_loader(path):
 class TripletImageLoader(torch.utils.data.Dataset):
     def __init__(self, base_path, filenames_filename, triplets_file_name, transform=None,
                  loader=default_image_loader):
+        """ filenames_filename: A text file with each line containing the path to an image e.g.,
+                images/class1/sample.jpg
+            triplets_file_name: A text file with each line containing three integers, 
+                where integer i refers to the i-th image in the filenames file. 
+                For a line of intergers 'a b c', a triplet is defined such that image a is more 
+                similar to image c than it is to image b, e.g., 
+                0 2017 42 """
         self.base_path = base_path  
         self.filenamelist = []
         for line in open(filenames_filename):
@@ -21,7 +25,7 @@ class TripletImageLoader(torch.utils.data.Dataset):
         triplets = []
         for line in open(triplets_file_name):
             triplets.append((line.split()[0], line.split()[1], line.split()[2])) # anchor, far, close
-        self.triplets = triplets[:10000]
+        self.triplets = triplets
         self.transform = transform
         self.loader = loader
 
