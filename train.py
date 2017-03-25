@@ -172,6 +172,7 @@ def train(train_loader, tnet, criterion, optimizer, epoch):
     # log avg values to somewhere
     plotter.plot('acc', 'train', epoch, accs.avg)
     plotter.plot('loss', 'train', epoch, losses.avg)
+    plotter.plot('emb_norms', 'train', epoch, emb_norms.avg)
 
 def test(test_loader, tnet, criterion, epoch):
     losses = AverageMeter()
