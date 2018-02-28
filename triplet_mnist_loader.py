@@ -159,7 +159,7 @@ class MNIST_t(data.Dataset):
             for i in range(a.shape[0]):
                 triplets.append([int(a[i]), int(c[i]), int(b[i])])           
 
-        with open(os.path.join(self.root, self.processed_folder, filename), "wb") as f:
+        with open(os.path.join(self.root, self.processed_folder, filename), "w") as f:
             writer = csv.writer(f, delimiter=' ')
             writer.writerows(triplets)
         print('Done!')
